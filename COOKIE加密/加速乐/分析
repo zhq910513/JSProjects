@@ -1,0 +1,16 @@
+查看网站网络时 勾选保留日志
+
+访问页面如果加载了三次，前两次状态码为521且第三次才访问成功
+
+访问成功的请求cookie中有加密字段 __jsluid_s 和 __jsl_clearance_s
+
+
+
+第一次访问不携带cookie，返回结果的headers中有Set-Cookie，返回结果是一段JS代码，执行JS代码会生成一个cookie
+
+第二次访问携带第一次访问返回的cookie以及返回JS生成的cookie，返回结果是一段JS代码
+在网页中替换下载好的JS代码 进行调试
+cookie 一般包含在document里面  可尝试搜索关键字document
+调试遇到页面一直自动刷新  可尝试搜索location关键字  前端方法location.reload(一般为刷新方法
+
+

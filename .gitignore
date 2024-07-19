@@ -1,0 +1,6 @@
+/log
+*.pyc
+*.docx
+*.apk
+*.xlsx
+core.*

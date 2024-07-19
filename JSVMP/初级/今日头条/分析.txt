@@ -1,0 +1,37 @@
+全局搜索
+
+排除筛选后刷新对应接口  锁定：var n = u(p.getUri(e), e);
+
+# 断点分析核心代码
+(null === (a = null === (n = window.byted_acrawler) || void 0 === n ? void 0 : n.sign) || void 0 === a ? void 0 : a.call(n, o)) || ""
+
+
+这段代码的核心逻辑是：
+    获取 window.byted_acrawler 对象及其 sign 方法。
+    判断对象和方法是否存在。
+    如果存在，则调用 sign 方法，并将结果返回。
+
+
+获取 window.byted_acrawler.sign 代码
+
+调试：
+    1、简单查看代码 (glb = "undefined" == typeof window ? global : window) 实际上 window等于global
+    2、继续调试   S[R] = S[R][A]   undefined (reading 'referrer')
+        补上 document = {referrer: "https://www.toutiao.com/"}  并给个默认值(检测防盗链)
+    3、继续调试   window.byted_acrawler.sign(o)   undefined (reading 'sign')
+        缺少sign方法
+            判别：被拦截了还是没有正确赋值到window里面？
+            方法：网页新建代码段 测试该JS代码   打印window.byted_acrawler是否存在sign方法
+                如果存在则表示JS代码段 没有正确赋值到window里面
+                    分别在JS代码中和网页新建的代码段中打印 所有的环境[***]  (JS代码中的[***])
+    4、排查后   "undefined" != typeof module ? module 赋值错误  可以改成直接赋值 void 0
+    5、加入proxy吐环境代码
+
+总结：
+    1、补环境时除了监测 几块常规环境，针对新加的 localStorage/sessionStorage 也要加入监测，然后提示缺什么补什么
+        localStorage/sessionStorage 不加 getItem 方法会返回假 cookie
+    2、
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+

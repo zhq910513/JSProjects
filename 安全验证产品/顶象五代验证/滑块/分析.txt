@@ -1,0 +1,86 @@
+------------------------------------------- 适用 jsv版本 5.1.49 ----------------------------------------
+# 获取/更新 验证码图片
+https://cap.dingxiang-inc.com/api/a
+
+请求参数
+    w: 380
+    h: 165
+    s: 50
+    jsv: 5.1.49
+    wp: 1
+    de: 0
+    uid:
+    lf: 0
+    tpc:
+    ak: 99de95ad1f23597c23b3558d932ded3c
+    c: 668e24dcjClYjwWfOHzicVIXZMGK4yjWkAW7WWN1
+    aid: dx-1720591578709-44058758-3
+    cid: 55160280
+    _r: 0.4376732267927723
+    code: undefined
+    m:
+    sid: 3b5fe16959fc862fb20d53e188c4dd07
+    wtf: false
+
+headers
+    无
+
+cookies
+    无
+
+*** 思路 ***
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+# 验证接口
+https://cap.dingxiang-inc.com/api/v1
+
+请求参数
+    jsv: 5.1.49
+    uid:
+    x: 150
+    y: 66   上个接口返回内容
+    w: 380
+    h: 165
+    ak: 99de95ad1f23597c23b3558d932ded3c   跟上个接口相同
+    c: 668e2f374rZ08dLzJMrfsfrIobDUdmTlCWEML4e1   跟上个接口相同
+    sid: 1294afbc8990e4f26feec53a656b7912   上个接口返回内容
+    aid: dx-1720594242081-40041027-3   跟上个接口相同
+    ac: 4354#mXXnhPrdM0rTD5nIXXH2gH...   每次都变化
+
+headers
+    无
+
+cookies
+    无
+
+*** 思路 ***
+    重点参数是 ac,初步认定是轨迹行为等参数加密
+
+    找到接口，调试加密参数哪些是必要的，哪些是非必要的
+
+    全局搜索 ac   检查是否被混淆   技巧：正则匹配搜索如下 ac\b 正则排除干扰   "ac"   ac":
+        发现一处地方完美匹配请求参数，下断点刷新
+
+        断住了，"ac": mn ? mn.getUA() : L("")  -->  mn.getUA()
+
+        ac 的值直接就是方法返回，因为 ac 每次都是在变化的，所以继续往上找入参位置
+        发现 mn 经过了两个方法
+            if (mn) {
+                mn.sendSA();
+                var Bn = "";
+                try {
+                    Bn = W(n.el)
+                } catch (n) {}
+                Bn ? mn.sendTemp({
+                    "xpath": Bn,
+                    "x": xn,
+                    "y": kn
+                }) : mn.sendTemp("x=" + xn + L("pL\x05") + kn)
+            }
+
+        再往上就没有了，所以分别在两个方法 mn.sendSA()   mn.sendTemp 打上断点
+
+
+

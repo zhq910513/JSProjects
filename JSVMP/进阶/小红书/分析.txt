@@ -1,0 +1,46 @@
+https://edith.xiaohongshu.com/api/sns/web/v1/homefeed
+
+请求参数
+    {"cursor_score":"","num":39,"refresh_type":1,"note_index":34,"unread_begin_note_id":"","unread_end_note_id":"","unread_note_count":0,"category":"homefeed.fashion_v3","search_key":"","need_num":14,"image_formats":["jpg","webp","avif"],"need_filter_image":false}
+
+    {"cursor_score":"","num":39,"refresh_type":1,"note_index":39,"unread_begin_note_id":"","unread_end_note_id":"","unread_note_count":0,"category":"homefeed.food_v3","search_key":"","need_num":14,"image_formats":["jpg","webp","avif"],"need_filter_image":false}
+
+headers
+    X-S:
+    X-S-Common:
+    X-B3-Traceid:
+
+cookies
+
+********************************************************** 思路 *********************************************************
+找到接口，调试加密参数哪些是必要的，哪些是非必要的
+
+全局搜索 x-s，检查是否被混淆   技巧：正则匹配搜索x-s\b，排除干扰
+
+排除筛选后刷新对应接口  锁定：l = (a && void 0 !== window._webmsxyw ? window._webmsxyw : encrypt_sign)(c, i) || {};
+
+# 断点分析核心代码
+    如果 a 为真且 window._webmsxyw 不是 undefined，则取 window._webmsxyw 并调用它。
+    否则，调用 encrypt_sign 函数，并传入参数 c 和 i。
+    如果调用结果为真值，则将其赋给 l。
+    如果调用结果为假值（比如 undefined 或 null），则将空对象 {} 赋给 l
+
+这段代码的核心逻辑是：
+    根据条件选择性地调用 window._webmsxyw 或 encrypt_sign 函数，并将结果赋给变量 l
+    简缩后其实是 window._webmsxyw(c, i)
+    并在浏览器控制台中校验  window._webmsxyw(c, i)
+    发现成功输出：{
+        "X-s": "XYW_eyJzaWduU3ZuIjoiNTIiLCJzaWduVHlwZSI6IngxIiwiYXBwSWQiOiJ4aHMtcGMtd2ViIiwic2lnblZlcnNpb24iOiIxIiwicGF5bG9hZCI6ImFjYWIyMzExZDAyMTNmZmU0MTc3ZmYzZmIzY2EwYzU0MDI0YmRjYzZiMmJiY2YwMzI1YzRkNzNjMjBiYWFjOTIzMTZmZTFmNjdkYzhkMTkwNTA3OTVkNTYyYzczMmM4OWQwNTc1MDMwNTY2NTA0MjE4ODgxNDNkOWFkNGRkYmQ5ODg4MTQzZDlhZDRkZGJkOWI1NmNjM2EzN2M2YTdhYWRlOTM2NTBhZGMzMzlkZTY0MGQwNzFlMjA5ZjczODE2MWM0YTMwY2I2NzcxNWY2ZWQ2NTUyMDNmYzY0NDUxY2U5NmM1NzM4N2M2YzgyNDY3ZmNmMzE3N2RjY2UyMzdhNzczMmJlZTlkOTJkNDM0NDk3OWY4ZjhlZjY4ODY5MDczODMwOWJlYjcwNjhiMTZmZTI0NmExZjZjN2M3ZTU5N2E2NGVmMjRmOTU5ZmRjZTA2OTgxNWZiY2UzYWJkOGQ3NGVlOThhNjJiNDM1NTYwZjg5NDAxZDE1NzYwNmE5NzM0YSJ9",
+        "X-t": 1720163207478
+    }
+
+获取 window._webmsxyw 代码
+    简单查看是在VMP中执行的混淆JS代码
+
+调试：
+    1、首先需要补的就是代码中window这个大环境，并注意关键字细节
+    2、加入吐环境代码，补全所有浏览器有值但程序显示undefined的对象
+
+------------------------------------------------------------------------------------------------------------------------
+
+

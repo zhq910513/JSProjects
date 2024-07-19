@@ -1,0 +1,143 @@
+------------------------------------------- 适用 SDK版本 1.1.3/rversion版本 1.0.4 ----------------------------------------
+# 更新验证码图片
+https://captcha1.fengkongcloud.cn/ca/v1/register
+
+请求参数
+    captchaUuid: 20240708115703sJ4xNeYtcmT5HQkk3t   变化
+    organization: d6tpAY1oV0Kv5jRSgxQr   不变,猜测是验证码类型uid
+    callback: sm_1720411178141
+    sdkver: 1.1.3
+    rversion: 1.0.4
+    lang: zh-cn
+    data: {}
+    channel: DEFAULT
+    appId: default
+    model: slide
+
+
+headers
+    无
+
+cookies
+    无
+
+*** 思路 ***
+找到接口，调试加密参数哪些是必要的，哪些是非必要的
+
+全局搜索 captchaUuid   检查是否被混淆   技巧：正则匹配搜索 captchaUuid\b，排除干扰
+    有两个方法
+    断点后刷新停不住
+
+XHR断点   https://captcha1.fengkongcloud.cn/ca/v1/register?
+         /ca/v1/register
+    刷新后也断不住
+
+跟栈   可断住但是没有值出现
+
+进一步调试：
+    全局搜索 captchaUuid   发现最终都是指向 webpack 的 getCaptchaUuid 模块
+        发现有两个地方，并且之前搜索 captchaUuid 变量赋值时断不住，猜测可能是赋值前或者页面刚加载的时候就已经生成了
+
+        出现的地方都打上断点，刷新页面看在哪里断住，并且有正确的值
+
+        getCaptchaUuid': function _0x2d350e() {
+            var _0x49a2b0 = _0x247065
+              , _0x1163e8 = ''
+              , _0x40ad39 = _0x49a2b0(0x42a)
+              , _0x3531f2 = _0x40ad39['length'];
+            for (var _0x235133 = -0x149e + -0x231d * 0x1 + -0x37bb * -0x1; _0x235133 < -0x2214 + 0xd * 0x223 + 0xe9 * 0x7; _0x235133++) {
+                _0x1163e8 += _0x40ad39['charAt'](Math[_0x49a2b0(0x2c6)](Math[_0x49a2b0(0x134)]() * _0x3531f2));
+            }
+            return _0x529f28[_0x49a2b0(0x294)](this[_0x49a2b0(0x232)](), _0x1163e8);
+        }
+
+        单步调试后调整代码
+
+
+调试时发现的问题
+    不能折叠代码
+    debugger 停留时间太久页面会直接崩溃
+    无法直接断住 断点后captchaUuid 赋值的模块方法内部
+
+
+------------------------------------------------------------------------------------------------------------------------
+https://captcha1.fengkongcloud.cn/ca/v2/fverify?
+
+xy: YabT6nmJOC0=   变化
+rid: 2024070820384929b13b97cc2268a8e3   变化   接口register 返回
+ww: 3Ph2wetsp2s=   变化
+mu: 4v7us5YraHprPdNsgFpHuo3ipQ0vGoqT2pl5EGhfEbsF7isMbBiBdcPfy0WWjytW1LJVQqhKyALCETfLkb3Q0NKdeBuxqPSqMVw++iFDGZXdQN+HwraE/jjVIoBXQ+MI3W9IAfRO3cbhKdw+dKz/Mg==   变化
+je: vxOar/jPFdBf4h2fZ+pk98D0Xh5T4Z8L   变化
+ostype: web
+sdkver: 1.1.3
+rversion: 1.0.4
+protocol: 180
+act.os: web_pc
+callback: sm_1720442366472
+organization: d6tpAY1oV0Kv5jRSgxQr
+captchaUuid: 20240708203747crjd3f7fAs5RcsXyWW   接口register 相同
+tb: 3jSn4gNaAVM=
+nu: C0kH/bWLjw8=
+jo: l3aEINYnwpY=
+mp: WYfkIZp7GoA=
+oc: h9oFKi8cHpg=
+kq: mtlOTdT5LOE=
+dy: Rfpr5oqb5y4=
+en: y+ugz9NIWys=
+
+
+*** 思路 ***
+找到接口，调试加密参数哪些是必要的，哪些是非必要的
+
+全局搜索 xy  mu  ww je 检查是否被混淆   技巧：正则匹配搜索 xxx\b，排除干扰
+    代码没混淆  网页无法直接搜会崩溃，本地搜索后发现 function _0x472cf7() 里面有提交的大部分参数，下断点
+    刷新后可断住
+
+    _0x4639e5['je'] = this[_0x425d8a(0x553)](_0x16f5e6 / _0x4c1632, _0x6f9c3c[_0x425d8a(0x48d)])
+    _0x4639e5['mu'] = this[_0x425d8a(0x553)](_0x3602ea, _0x6f9c3c[_0x425d8a(0x3d1)])
+    _0x4639e5['ww'] = this[_0x425d8a(0x553)](_0x53f1f2 - _0x5caf5a, '17a94a08')
+
+    没有找到 xy 参数
+
+    // 断点调试解混淆
+    // 共有方法
+    _0x425d8a(0x553) = "getEncryptContent"
+    // je
+    _0x425d8a(0x48d) = "CvUZE"
+    _0x6f9c3c[_0x425d8a(0x48d)] = "5ea96022"
+    _0x16f5e6 = 69   多次调试发现这个是变化参数
+    _0x4c1632 = 300
+    // mu
+    _0x3602ea 是个大数组，猜测是滑动轨迹
+    _0x425d8a(0x3d1) = "LCDQP"
+    _0x6f9c3c[_0x425d8a(0x3d1)] = "e7e1eb0d"
+    // ww
+    _0x53f1f2 = 1720444809751   这两个是时间戳，猜测是滑动的起始时间  结束时间
+    _0x5caf5a = 1720444808854   这两个是时间戳，猜测是滑动的起始时间  开始时间
+
+    # 解混淆后代码
+    _0x4639e5['je'] = getEncryptContent(60 / 300, "5ea96022")
+    _0x4639e5['mu'] = getEncryptContent([], "LCDQP")
+    _0x4639e5['ww'] = getEncryptContent((1720444809751 - 1720444808854), '17a94a08')
+
+    全局搜方法 getEncryptContent
+    _0x379d2f['prototype'][_0x3d50b3(0x553)] = function _0x2fa022(_0x116ae9, _0x14175b) {
+        var _0x52262 = _0x3d50b3
+          , _0x12a32c = this[_0x52262(0xa30)]['__key']
+          , _0xcaece9 = _0x14175b || _0x12a32c;
+        _0x2460cd[_0x52262(0x9f1)][_0x52262(0x2b8)]() && (_0xcaece9 = _0x3212f5);
+        var _0x376380 = _0x6f9c3c['abzhI'](typeof _0x116ae9, _0x6f9c3c['hOuuf']) ? !![] : ![]
+          , _0x7c7833 = _0x376380 ? _0x116ae9 : _0x2460cd[_0x6f9c3c['Nlbsb']]['smStringify'](_0x116ae9)
+          , _0x197249 = '';
+        return _0x197249 = _0x21c59e[_0x52262(0x9f1)][_0x52262(0x80e)](_0xcaece9, _0x7c7833, 0x2 * 0x96b + 0x376 * -0x1 + -0xf5f, 0x177d + 0xa10 * -0x3 + 0x6b3),
+        _0x197249 = _0x21c59e['default'][_0x52262(0x6de)](_0x197249),
+        _0x197249;
+    }
+
+    此处有坑
+        1、传入加密函数体的是字符串，但是传进来的有浮点型和数组，数组不能直接用内置方法toString，否则会变样，浮点型可以直接转变成字符串，所以轨迹数组传进来先处理成字符串
+        2、扣加密函数体时，是个很庞大的对象，扣代码时函数_0x2942内部变量_0x5ea02a生成的时候有缺失会报错并且 var _0x5ea02a = _0xfa2c(); 原方法需要补大量的函数，所以直接扣浏览器生成的代替
+        3、生成的轨迹算法 一定要符合实际
+
+
+

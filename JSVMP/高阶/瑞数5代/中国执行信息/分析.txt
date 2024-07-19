@@ -1,0 +1,55 @@
+------------------------------------------------------ 适用 瑞数5代 ------------------------------------------------------
+# 首页数据接口
+http://zxgk.court.gov.cn
+
+请求参数加密
+    无
+
+headers加密
+    无
+
+cookies加密
+    lqWVdQzgOVyaS
+    lqWVdQzgOVyaT
+
+*** 思路 ***
+    cookie 的取值一般从 document(文档) 来的，所以先处理 cookie 参数，清空 cookie，开启监听脚本后刷新网页
+        观察发现 第一次请求 http://zxgk.court.gov.cn
+                状态码为 202
+                服务器返回一个cookie lqWVdQzgOVyaS，访问数据的cookie需要携带这个参数
+                返回内容为生成 _ts 的 JS 源码
+
+
+        
+
+
+
+总结：
+    网站会检测 "__filename"/"__dirname" 关键字，否则生成长度一样也会报错 400
+
+    无cookie状态下浏览器生成的 cookie 长度为 235，浏览器多次访问后 cookie 长度不变
+    有cookie状态下点击页面跳转浏览器生成的 cookie 长度为 427，浏览器多次访问后 cookie 长度不变
+    直接刷新原有页面浏览器生成的 cookie 长度为 363，浏览器多次访问后 cookie 长度不变
+    本地代码生成的 cookie 为 214，但也能访问成功
+
+    第一次访问的返回内容有轻微变化
+        同样都有
+            2个 meta 标签，3个 script 标签
+        不同的是
+            4代 ts 外链链接放在第2个 script 标签中，5代放在第3个 script 标签中
+            4代是 ts 外链后面再跟上一个自执行大函数，5代是 一段 ts 加密内容声明方法后面跟一个 ts 外链
+
+    相比4代，5代环境检测变化（用4代的环境去执行5代）
+        多了 document.getElementsByTagName.base 标签
+        多了 document.getElementById 方法
+
+优化:
+    继续补环境让 cookie 长度与浏览器保持一致
+        window.ActiveXObject   长度 192(无)/256(有)    *重要*
+        location.href   长度 报错(无)/235(有)   *不可缺*
+        location.protocol   长度 256(无)/235(有)   *重要*
+        location.hostname   长度 192(无)/235(有)    *重要*
+
+
+
+------------------------------------------------------------------------------------------------------------------------

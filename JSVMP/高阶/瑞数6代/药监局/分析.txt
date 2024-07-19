@@ -1,0 +1,47 @@
+------------------------------------------- 适用 瑞数6代 ----------------------------------------
+# 导航栏数据接口
+https://lib.cqvip.com/Search/SearchList
+
+请求参数加密
+    X2sCXRB4
+
+headers加密
+    无
+
+cookies加密
+    GW1gelwM5YZuS
+    GW1gelwM5YZuT
+
+*** 思路 ***
+    cookie 的取值一般从 document(文档) 来的，所以先处理 cookie 参数，清空 cookie，开启监听脚本后刷新网页
+        观察发现 第一次请求 https://lib.cqvip.com/Qikan/Journal/JournalGuid?from=index
+                状态码为 412
+                服务器返回一个cookie GW1gelwM5YZuS，访问数据的cookie需要携带这个参数
+                返回内容为生成 _ts 的 JS 源码
+
+    断在第一次访问 https://lib.cqvip.com/Qikan/Journal/JournalGuid?from=index 返回的脚本内容体中
+        关键内容 两个meta标签
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta content="DMDcFLzlT.N7Wkt.X8BH_lzKTqzUZmLOUg_uFaxLRf44dyg4mvdJussxg3zOQDUtqyQdJ98b.4yk7kJTiquMJN2PFf.5VQAuDHRpyTridVtS4eyibDjO6G" r="m">
+
+        接下来执行获取 _ts 的值
+            <script type="text/javascript" r='m'>
+                .*？
+            </script>
+
+        执行下载 .*？里的外链 JS 源码，有格式校验不可格式化
+
+        需要注意 中间要跳过几个 window.vilame_setter = [{...}]
+        直到 if ($_ts.cd) {... 出现，即外链 JS 内容体
+
+        *** 注意点
+            可以保存返回的脚本内容和外链 JS 代码到本地防止变化，选中两个文件右键替换内容，浏览器会优先加载本地的JS
+
+        
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
