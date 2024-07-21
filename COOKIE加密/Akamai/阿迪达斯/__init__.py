@@ -1,9 +1,9 @@
 # encoding: utf-8
 """
 @author: The King
-@project: js_project
+@project: JSProjects
 @file: __init__.py.py
-@time: 2024/7/19 11:27
+@time: 2024/7/20 17:26
 """
 
 
