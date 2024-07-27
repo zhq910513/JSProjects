@@ -2,13 +2,11 @@
 """
 @author: The King
 @project: JSProjects
-@file: test_website.py
+@file: 测试数组变化.py
 @time: 2024/7/20 22:59
 """
 import pprint
 import requests
-
-from curl_cffi import requests as creq
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -32,3 +30,13 @@ headers = {
 
 response = requests.get('https://tls.browserleaks.com/json', headers=headers)
 pp.pprint(response.json())
+
+# 绕过
+# 方法一  修改底层代码impersonate
+from curl_cffi import requests as creq
+
+c_resp = creq.get('https://tls.browserleaks.com/json', headers=headers, impersonate="chrome101")
+pp.pprint(c_resp.json())
+
+
+# 方法二

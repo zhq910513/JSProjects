@@ -1,0 +1,59 @@
+------------------------------------------- 适用 瑞数6代 ----------------------------------------
+# 导航栏数据接口
+https://lib.cqvip.com
+
+请求参数加密
+    无
+
+headers加密
+    无
+
+cookies加密
+    GW1gelwM5YZuS
+    GW1gelwM5YZuT
+
+*** 思路 ***
+    cookie 的取值一般从 document(文档) 来的，所以先处理 cookie 参数，清空 cookie，开启监听脚本后刷新网页
+        观察发现 第一次请求 https://lib.cqvip.com
+                状态码为 412
+                服务器返回一个cookie GW1gelwM5YZuS，访问数据的cookie需要携带这个参数
+                返回内容为生成 _ts 的 JS 源码
+
+    断在第一次访问 https://lib.cqvip.com 返回的脚本内容体中
+        关键内容 两个meta标签
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta content="DMDcFLzlT.N7Wkt.X8BH_lzKTqzUZmLOUg_u" r="m">
+
+        接下来执行xpath获取 _ts 的值
+            <script type="text/javascript" r='m'>
+                .*？
+            </script>
+
+        执行下载 .*？里的外链 JS 源码，有格式校验不可格式化
+
+        需要注意 中间要跳过几个 window.vilame_setter = [{...}]
+        直到 if ($_ts.cd) {... 出现，即外链 JS 内容体
+
+        *** 调试注意点
+            可以保存返回的脚本内容和外链 JS 代码到本地防止变化，选中两个文件右键替换内容，浏览器会优先加载本地的JS
+
+总结：
+    网站会检测 "__filename"/"__dirname" 关键字，否则生成长度一样也会报错 400
+
+    无cookie状态下浏览器生成的 cookie 长度为 257，浏览器多次访问后 cookie 长度不变
+    有cookie状态下点击页面跳转浏览器生成的 cookie 长度为 449，浏览器多次访问后 cookie 长度不变
+    直接刷新原有页面浏览器生成的 cookie 长度为 385，浏览器多次访问后 cookie 长度不变
+    本地代码生成的 cookie 为 257，但访问状态码 200，却没有内容返回
+        缺少 window.ActiveXObject 的原因
+
+    生成 cookie 长度有两组
+        236(无cookie加载)   364(刷新原页面)   428(点击跳转其他页面)
+        257(无cookie加载)   385(刷新原页面)   449(点击跳转其他页面)
+
+    5代对比6代，第一次访问的返回内容无变化
+
+    相比5代，6代环境检测变化（用5代的环境去执行6代）
+        替换 location 里面的值即可，其他不需要改
+
+优化:
+    6代环境通用

@@ -1,0 +1,40 @@
+* ~ 2024/07/23
+    GW1gelwM5YZuT版本
+        瑞数6代
+        cookie参数
+            GW1gelwM5YZuS   # 第一次访问服务器返回
+            GW1gelwM5YZuT   # JS 生成
+
+        请求体参数
+            X2sCXRB4   # JS 生成
+
+        其他参数
+            ae51635ca5836b4864   # JournalGuid 页面第二次访问返回
+            ASP.NET_SessionId   # JournalGuid 页面第二次访问返回
+            LIBUSERCOOKIE   # JournalGuid 页面第二次访问返回
+            f6324025fe   # JournalGuid 页面第二次访问返回
+
+            HMACCOUNT   # 浏览器生成
+            _qddaz   # 浏览器生成
+            user_behavior_flag   # 浏览器生成
+
+------------------------------------------------------------------------------------------------------------------------
+2024/07/24 ~ *
+    6HZbKHDjIEcgT版本
+        瑞数6代
+        cookie参数
+            6HZbKHDjIEcgS   第一次访问服务器返回   长度：88
+            6HZbKHDjIEcgT   JS 生成   长度：321/449/492
+
+        请求体参数
+            无请求参数
+
+        其他参数
+            bbe2fd78a5836b4864   # JournalGuid 页面第二次访问返回
+            ASP.NET_SessionId   # JournalGuid 页面第二次访问返回
+            LIBUSERCOOKIE   # JournalGuid 页面第二次访问返回
+            f6324025fe   # JournalGuid 页面第二次访问返回
+
+            HMACCOUNT   # 浏览器生成
+            _qddaz   # 浏览器生成
+            user_behavior_flag   # 浏览器生成

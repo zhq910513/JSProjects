@@ -53,7 +53,7 @@ class Set_Cookie(object):
         with open("cookie_ts_source_part_2.js", "w", encoding="utf-8") as f:
             f.write(ts_code_2)
 
-        with open('./excute_js_code.js', 'r', encoding='utf-8') as f:
+        with open('excute_js_code.js', 'r', encoding='utf-8') as f:
             excute_js_text = f.read()
             excute_js_text = excute_js_text.replace('meta_content', meta_content)
             excute_js_text = excute_js_text.replace('"ts_code_1"', ts_code_1)
@@ -67,7 +67,7 @@ class Set_Cookie(object):
 
     def set_first_cookie(self):
         first_response = self.session.get(url=self.url, headers=self.headers)
-        with open("./first_response.html", "w", encoding="utf-8") as f:
+        with open("first_response.html", "w", encoding="utf-8") as f:
             f.write(first_response.text)
 
         print("第一次访问状态码：", first_response.status_code)

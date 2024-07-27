@@ -1,5 +1,5 @@
 // ---------------------------------------------------  cookie 生成环境  -------------------------------------------------
-let content = "s_XgONAKQChb09FfLUm9KJTDyx2JFn.C5n4uUZTppJcPvTnDvjoZfG";
+let content = "meta_content";
 
 // 1、补充 window 对象
 window = global;
@@ -122,10 +122,10 @@ navigator = {
 
 // 4、补充 location 对象
 location = {
-    "href": "http://zxgk.court.gov.cn/",
-    "protocol": "http:",
-    "host": "zxgk.court.gov.cn",
-    "hostname": "zxgk.court.gov.cn",
+    "href": "https://lib.cqvip.com/Qikan/Journal/JournalGuid?from=index",
+    "protocol": "https:",
+    "host": "lib.cqvip.com",
+    "hostname": "lib.cqvip.com",
 };
 
 // 5、补充 screen 对象
@@ -133,5 +133,20 @@ location = {
 // 6、补充 localStorage 对象
 
 
-// ====================================================   代理吐环境   ===================================================
-require("../../../../环境检测框架/proxy吐环境")
+
+// ------------------------------------------------  cookie _ts 代码段 一  -----------------------------------------------
+"ts_code_1"
+
+
+
+// ------------------------------------------------  cookie _ts 代码段 二  -----------------------------------------------
+"ts_code_2"
+
+
+
+// ----------------------------------------------------  cookie 返回  ---------------------------------------------------
+function get_cgT() {
+    let cookie = document.cookie.split(";")[0].split("=")[1];
+    console.log(cookie.length)
+    return cookie;
+}

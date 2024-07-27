@@ -57,32 +57,3 @@ cookies加密
 
 优化:
     6代环境通用
-
-------------------------------------------------------------------------------------------------------------------------
-数据接口
-    https://lib.cqvip.com/Search/SearchList
-
-请求参数加密
-    X2sCXRB4
-
-headers加密
-    无
-
-cookies加密
-    固定
-        'ae51635ca5836b4864': '94ee5fb45ad7f8f15d2d00578ab61262'   # JournalGuid 页面第二次访问返回
-        'ASP.NET_SessionId': 'dfkn1anm5tyqaaw0ljhoxclh'   # JournalGuid 页面第二次访问返回
-        'LIBUSERCOOKIE': 'xxxx'   # JournalGuid 页面第二次访问返回
-        'f6324025fe': '4237cb9854aa9bb989454994e23dd86c'   # JournalGuid 页面第二次访问返回
-
-        'HMACCOUNT': '75004FF0BC571D74'   # 本地生成
-        '_qddaz': 'QD.723421288677870'   # 本地生成
-        'user_behavior_flag': '5f2f1bdd-fdef-4fb4-a276-4f6bbcd15e67'   # 本地生成
-
-    变化
-        _qddab   # 本地生成
-        GW1gelwM5YZuS   # JournalGuid 页面第二次访问返回
-        GW1gelwM5YZuT   # 本地生成
-
-
-*** 思路 ***
