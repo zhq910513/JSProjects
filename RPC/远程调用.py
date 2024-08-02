@@ -12,7 +12,7 @@ import requests
 
 url = "http://127.0.0.1:12080/go"
 data = {
-    "group": "zzz",
+    "group": "location",
     "name": "mycode",
     "action": "getData",
     "param": json.dumps({"param_1_name": "xxx", "param_2_name": "xxx"})
